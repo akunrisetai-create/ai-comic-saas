@@ -1,71 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>AI Comic Story Stable</title>
-  <style>
-    body { font-family: Arial; background:#0f172a; color:white; padding:20px; }
-    textarea { width:100%; height:120px; }
-    button { padding:10px; margin-top:10px; }
-    #output { white-space:pre-wrap; margin-top:20px; }
-  </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-<script>
-const API_BASE = "http://localhost:3001/api";
-</script>
+  <title>AI Comic SaaS</title>
 </head>
-<body>
-  <h2>AI Comic Story REAL AI SYSTEM V3 PRO STUDIO</h2>
+<body style="font-family: Arial; text-align:center; margin-top:100px;">
 
-  
-<hr/>
-<h3>PRO STUDIO CONTROLS</h3>
+  <h1>🧠 AI Comic SaaS</h1>
 
-<label>Provider:</label>
-<select id="provider">
-  <option value="gemini">Gemini</option>
-  <option value="openai">OpenAI</option>
-</select>
-
-<label>API Key:</label>
-<input id="apiKey" type="password" style="width:100%" />
-
-<button onclick="saveSettings()">Save Settings</button>
-<button onclick="loadSettings()">Load Settings</button>
-
-<button onclick="exportTXT()">Export TXT</button>
-
-<div id="progress" style="margin-top:10px;background:#334155;height:10px;width:100%">
-  <div id="bar" style="background:#22c55e;height:10px;width:0%"></div>
-</div>
-
-<div style="background:#0b1220;padding:10px;margin-bottom:10px;">
-<h2>COMMERCIAL DASHBOARD</h2>
-<button onclick="newProject()">New Project</button>
-<button onclick="saveProject()">Save Project</button>
-<button onclick="loadProjects()">Load Projects</button>
-<div id="projectList"></div>
-</div>
-<hr/>
-
-<div style="background:#0a0f1f;padding:10px;margin:10px 0;">
-<h3>ENTERPRISE STUDIO</h3>
-
-<input id="email" placeholder="email login" />
-<button onclick="login()">Login</button>
-<button onclick="cloudSync()">Cloud Sync</button>
-
-<button onclick="exportJSON()">Export JSON</button>
-<button onclick="exportCBZ()">EXPORT CBZ (ENTERPRISE)</button>
-</div>
-<hr/>
-<input type="file" id="fileInput" multiple />
-  <textarea id="prompt">Jelaskan komik dari gambar secara akurat.</textarea>
+  <input id="prompt" placeholder="Tulis cerita komik..." style="width:300px;padding:10px;" />
   <button onclick="generate()">Generate</button>
 
-  <div id="output"></div>
+  <pre id="output" style="margin-top:30px;"></pre>
 
-  <script src="renderer.js"></script>
+  <script>
+    async function generate() {
+      const prompt = document.getElementById("prompt").value;
+
+      const res = await fetch("/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await res.json();
+      document.getElementById("output").innerText = data.result;
+    }
+  </script>
+
 </body>
 </html>
